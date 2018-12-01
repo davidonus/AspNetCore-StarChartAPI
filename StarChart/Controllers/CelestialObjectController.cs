@@ -71,7 +71,7 @@ namespace StarChart.Controllers
             exisitingObject.OrbitalPeriod = celestialObject.OrbitalPeriod;
             exisitingObject.OrbitedObjectId = celestialObject.OrbitedObjectId;
 
-            _context.CelestialObjects.Update(celestialObject);
+            _context.CelestialObjects.Update(exisitingObject);
             _context.SaveChanges();
             return NoContent();
         }
@@ -91,10 +91,10 @@ namespace StarChart.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete (int id)
         {
-            var exisitingObjects = _context.CelestialObjects.Where(e => e.OrbitedObjectId == id).ToList();
-            if (!exisitingObjects.Any())
+            var celestialObjects = _context.CelestialObjects.Where(e => e.OrbitedObjectId == id|| e.Id == id).ToList();
+            if (!celestialObjects.Any())
             { return NotFound(); }
-            _context.CelestialObjects.RemoveRange(exisitingObjects);
+            _context.CelestialObjects.RemoveRange(celestialObjects);
             _context.SaveChanges();
             return NoContent();
         }
